@@ -1,5 +1,6 @@
 import random
 from digit_sqr import DigitSqr
+import numpy as np
 
 
 class GeneratePuzzle:
@@ -9,16 +10,17 @@ class GeneratePuzzle:
         self.generate_puzzle()
 
     def generate_puzzle(self):
-        del self.digits[:]
+        self.digits = []
         while len(self.digits) != 9:
-            num = random.randint(1, 9)
+            num = random.randint(0, 8)
             if num not in self.digits:
                 self.digits.append(num)
         print(self.digits)
-        if not self.is_solvable(self.digits) % 2 == 0:
-            print("re-generating")
-            self.generate_puzzle()
+        # if not self.is_solvable(self.digits) % 2 == 0:
+        #     print("re-generating")
+        #     self.generate_puzzle()
 
+        self.digits = np.array(self.digits).reshape((3, 3))
         return self.digits
 
     def draw_puzzle(self, digits):

@@ -15,7 +15,7 @@ class Puzzle:
         pygame.font.init()
 
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((600, 600))
+        self.screen = pygame.display.set_mode((400, 600))
         pygame.display.set_caption("Puzzle8 - BCC IA/2023 ")
         self.screen.fill(self.black)
         self.generate_puzzle = GeneratePuzzle(self.screen)
@@ -25,7 +25,7 @@ class Puzzle:
         self.finish = False
         self.you_win = False
         count = 0
-        solve = False
+        solve = True
 
         while not self.finish:
             for event in pygame.event.get():

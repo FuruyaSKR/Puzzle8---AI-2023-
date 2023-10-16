@@ -2,11 +2,12 @@ import numpy as np
 import time
 import random
 from puzzle import Puzzle
+from GeneratePuzzle import GeneratePuzzle
 
 
 GOAL = np.array([[1, 2, 3], [8, 0, 4], [7, 6, 5]])
 SOLUTION = False
-iter_limit = 1e4
+iter_limit = 100
 
 
 def dist_manhattan(x, y):
@@ -112,10 +113,9 @@ def astar(puzzle):
 
 if __name__ == "__main__":
     numbers = list(range(9))
-    # random.shuffle(numbers)
-    # initial_puzzle = np.array(numbers).reshape((3, 3))
     start = time.time()
-    initial_puzzle = np.array([[2, 6, 3], [1, 0, 4], [8, 7, 5]])
+    # initial_puzzle = np.array([[2, 3, 6], [0, 1, 4], [8, 7, 5]])
+    initial_puzzle = GeneratePuzzle(None).generate_puzzle()
     print("=" * 20)
     print(f"""Puzzle inicial:\n {initial_puzzle}\n""")
     print("=" * 20)
@@ -130,5 +130,6 @@ if __name__ == "__main__":
     print(f"Nodes: {total_nodes}")
     print(f"Search time: {end-start:4f}s")
 
-    route = [[num for row in step for num in row] for step in route]
-    Puzzle(route).initialization()
+    if SOLUTION:
+        route = [[num for row in step for num in row] for step in route]
+        Puzzle(route).initialization()
