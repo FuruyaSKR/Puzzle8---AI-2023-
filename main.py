@@ -1,10 +1,12 @@
 import numpy as np
 import time
 import random
+from puzzle import Puzzle
 
 
 GOAL = np.array([[1, 2, 3], [8, 0, 4], [7, 6, 5]])
-SOLUCION = False
+SOLUTION = False
+iter_limit = 1e4
 
 
 def dist_manhattan(x, y):
@@ -72,6 +74,7 @@ def move(puzzle):
                 branch[v_x][v_y] = puzzle[v_x][v_y - 1]
                 branch[v_x][v_y - 1] = puzzle[v_x][v_y]
         possible_moves.append(branch)
+
     for index, candidate in enumerate(possible_moves):
         fx, gx, hx = evaluation_function(candidate)
         print(
@@ -93,29 +96,32 @@ def astar(puzzle):
     final_state = False
     total_nodes = 0
     count = 0
-    while not final_state and count < 100:
+    global SOLUTION
+    route_to_goal = []
+    while not final_state and count < iter_limit:
         print(f"""Move: {count} \nAvaliando: \n{puzzle}""")
         nodes, puzzle = move(puzzle)
+        route_to_goal.append(puzzle)
         total_nodes += nodes
 
         final_state = (puzzle == GOAL).all() == True
         count += 1
-    SOLUCION = bool(count < 100)
-    return total_nodes, puzzle
+    SOLUTION = bool(count < iter_limit)
+    return total_nodes, puzzle, route_to_goal
 
 
 if __name__ == "__main__":
     numbers = list(range(9))
-    random.shuffle(numbers)
-    initial_puzzle = np.array(numbers).reshape((3, 3))
+    # random.shuffle(numbers)
+    # initial_puzzle = np.array(numbers).reshape((3, 3))
     start = time.time()
-    # initial_puzzle = np.array([[2, 6, 3], [0, 1, 4], [8, 7, 5]])
+    initial_puzzle = np.array([[2, 6, 3], [1, 0, 4], [8, 7, 5]])
     print("=" * 20)
     print(f"""Puzzle inicial:\n {initial_puzzle}\n""")
     print("=" * 20)
-    total_nodes, solution = astar(initial_puzzle)
+    total_nodes, solution, route = astar(initial_puzzle)
     end = time.time()
-    if not SOLUCION:
+    if not SOLUTION:
         print("Nenhuma solução encontrada.")
     else:
         print("Solução encontrada:\n")
@@ -123,3 +129,6 @@ if __name__ == "__main__":
     print("=" * 20)
     print(f"Nodes: {total_nodes}")
     print(f"Search time: {end-start:4f}s")
+
+    route = [[num for row in step for num in row] for step in route]
+    Puzzle(route).initialization()
