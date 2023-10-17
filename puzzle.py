@@ -45,7 +45,7 @@ class Puzzle:
 
             pygame.display.update()
             self.clock.tick(60)
-            time.sleep(2)
+            time.sleep(0.5)
 
         pygame.quit()
         quit()
