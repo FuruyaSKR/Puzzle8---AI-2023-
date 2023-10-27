@@ -17,12 +17,6 @@ class DigitSqr:
         if self.digit != 9:
             self.text_to_screen(self.digit, self.rect.x + 40, self.rect.y + 25)
 
-    def draw_rect(self, x, y):
-        self.rect = self.rect.move(x, y)
-        if self.digit != 9:
-            self.text_to_screen(self.digit, self.rect.x + 40, self.rect.y + 25)
-        pygame.display.update()
-
     def text_to_screen(self, text, x, y):
         try:
             text = str(text)

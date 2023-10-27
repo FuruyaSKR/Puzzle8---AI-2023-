@@ -37,12 +37,3 @@ class GeneratePuzzle:
                 counter_y += 1
 
         return puzzle
-
-    def is_solvable(self, digit):
-        count = 0
-        for i in range(0, 9):
-            for j in range(i, 9):
-                if digit[i] > digit[j] and digit[i] != 9:
-                    count += 1
-
-        return count
